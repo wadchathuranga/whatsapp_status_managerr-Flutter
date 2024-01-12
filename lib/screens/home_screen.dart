@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../utils/app_colors.dart';
 import './image_screen.dart';
@@ -12,6 +13,27 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  void _permission() async{
+    Map<Permission, PermissionStatus> result = await [
+      Permission.storage,
+      Permission.manageExternalStorage,
+    ].request();
+
+    if (result[Permission.storage] == PermissionStatus.granted && result[Permission.manageExternalStorage] == PermissionStatus.granted){
+      print('================${result[Permission.storage]}');
+    } else {
+      print('================${result[Permission.storage]}');
+      print('================${result[Permission.manageExternalStorage]}');
+    }
+  }
+
+  @override
+  void initState() {
+    _permission();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(

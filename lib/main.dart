@@ -4,9 +4,9 @@ import 'package:whatsapp_status_manager/screens/home_screen.dart';
 import 'package:whatsapp_status_manager/utils/app_colors.dart';
 
 void main() {
-  SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(statusBarColor: AppColors.primary),
-  );
+  // SystemChrome.setSystemUIOverlayStyle(
+  //     const SystemUiOverlayStyle(statusBarColor: AppColors.primary),
+  // );
   runApp(const MyApp());
 }
 
