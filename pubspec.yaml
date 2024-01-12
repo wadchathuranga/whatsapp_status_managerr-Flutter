@@ -39,7 +39,7 @@ dependencies:
   fluttertoast: ^8.2.1
   permission_handler: ^11.1.0
   provider: ^6.1.1
-#  video_thumbnail:
+  video_thumbnail: ^0.5.3
 #  image_gallery_saver:
 #  flutter_native_api:
 #  chewie:
