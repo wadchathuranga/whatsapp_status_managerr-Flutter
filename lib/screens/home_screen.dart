@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../utils/app_colors.dart';
 import './image_screen.dart';
+import './video_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -31,11 +32,11 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
-        body: const TabBarView(
+        body: TabBarView(
           children: [
             ImageScreen(),
-            Text('Videos'),
-            // VideosScreen(),
+            // Text('Videos'),
+            VideoScreen(),
           ],
         ),
       ),
