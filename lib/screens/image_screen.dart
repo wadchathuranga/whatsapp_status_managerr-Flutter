@@ -32,14 +32,12 @@ class _ImageScreenState extends State<ImageScreen> {
                   InkWell(
                     // onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> ViewImage(image : file.getImage[index].path,))),
                     child: Container(
-                      height: MediaQuery.of(context).size.width*0.45,
-                      width: MediaQuery.of(context).size.width*0.45,
-                      // color: Colors.black12,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          image: const DecorationImage(
+                      height: MediaQuery.of(context).size.width*0.5,
+                      width: MediaQuery.of(context).size.width*0.5,
+                      decoration: const BoxDecoration(
+                          image: DecorationImage(
                               fit: BoxFit.fill,
-                              image: AssetImage(AppImages.logo),
+                              image: NetworkImage('https://blog.logrocket.com/wp-content/uploads/2021/07/networking-flutter-http-package.png'),
                               // image: FileImage(File(file.getImage[index].path)))
                           ),
                       ),
