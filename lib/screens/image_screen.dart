@@ -1,7 +1,6 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 
-import '../utils/app_images.dart';
+import './view_image.dart';
 import '../widgets/common_toast.dart';
 
 class ImageScreen extends StatefulWidget {
@@ -30,7 +29,7 @@ class _ImageScreenState extends State<ImageScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InkWell(
-                    // onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> ViewImage(image : file.getImage[index].path,))),
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> ViewImageScreen(image: 'https://blog.logrocket.com/wp-content/uploads/2021/07/networking-flutter-http-package.png',))),
                     child: Container(
                       height: MediaQuery.of(context).size.width*0.5,
                       width: MediaQuery.of(context).size.width*0.5,
