@@ -85,10 +85,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             indicatorColor: AppColors.secondary,
             unselectedLabelColor: AppColors.whiteColor,
             indicatorWeight: 3,
-            labelPadding: const EdgeInsets.all(15),
             tabs: const [
-              Text('Images'),
-              Text('Videos'),
+              Tab(text: 'Images', icon: Icon(Icons.image)),
+              Tab(text: 'Videos', icon: Icon(Icons.video_collection)),
             ],
           ),
         ),
