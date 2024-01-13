@@ -31,6 +31,7 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
+/playstore_key
 
 # Symbolication related
 app.*.symbols
