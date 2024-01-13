@@ -75,7 +75,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: AppColors.primary,
-          title: const Text('Save Status'),
+          title: const Text(
+            'What SAM',
+            style: TextStyle(color: AppColors.whiteColor),
+          ),
           bottom: TabBar(
             controller: tabController,
             labelColor: AppColors.secondary,
