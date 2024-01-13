@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_native_api/flutter_native_api.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 
 import '../utils/app_colors.dart';
 import '../widgets/common_toast.dart';
@@ -26,7 +28,7 @@ class _ViewImageScreenState extends State<ViewImageScreen> {
         decoration: BoxDecoration(
             image: DecorationImage(
                 fit: BoxFit.fitWidth,
-                image: FileImage(File(widget.image!))
+                image: FileImage(File(widget.image))
             )
         ),
       ),
@@ -37,11 +39,11 @@ class _ViewImageScreenState extends State<ViewImageScreen> {
             backgroundColor: AppColors.primary,
             heroTag: "Saved Image",
             onPressed: () {
-              // ImageGallerySaver.saveFile(widget.image!).then((value) {
-              //   commToast("Saved Successfully", context);
-              // }).onError((error, stackTrace) {
-              //   commToast("Error", context);
-              // });
+              ImageGallerySaver.saveFile(widget.image).then((value) {
+                commToast("Saved Successfully", context);
+              }).onError((error, stackTrace) {
+                commToast("Error", context);
+              });
             },
             child: const Icon(
               Icons.file_download_outlined,
@@ -53,7 +55,7 @@ class _ViewImageScreenState extends State<ViewImageScreen> {
             backgroundColor: AppColors.primary,
             heroTag: "Share Image",
             onPressed: (){
-              // FlutterNativeApi.shareImage(widget.image!);
+              FlutterNativeApi.shareImage(widget.image);
             },
             child: const Icon(
               Icons.share,

@@ -14,7 +14,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
 
-  void _permission() async{
+  void _permission() async {
     Map<Permission, PermissionStatus> result = await [
       Permission.storage,
       Permission.manageExternalStorage,
@@ -54,10 +54,9 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: [
             ImageScreen(),
-            // Text('Videos'),
             VideoScreen(),
           ],
         ),

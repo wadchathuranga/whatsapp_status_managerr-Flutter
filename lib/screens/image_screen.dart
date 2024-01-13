@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_native_api/flutter_native_api.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:provider/provider.dart';
 
 import '../services/app_provider.dart';
@@ -43,9 +45,9 @@ class _ImageScreenState extends State<ImageScreen> {
                         itemCount: file.getImage.length,
                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
-                          crossAxisSpacing: 5.0,
+                          crossAxisSpacing: 0.0,
                           childAspectRatio: 0.75,
-                          mainAxisSpacing: 5.0,
+                          mainAxisSpacing: 0.0,
                         ),
                         itemBuilder: (context, index) {
                           return Card(
@@ -70,16 +72,21 @@ class _ImageScreenState extends State<ImageScreen> {
                                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                   children: [
                                     IconButton(
-                                        onPressed: (){},
-                                        // onPressed: () => FlutterNativeApi.shareImage(file.getImage[index].path),
+                                        // onPressed: (){},
+                                        onPressed: () async {
+                                          FlutterNativeApi.shareImage(file.getImage[index].path);
+                                        },
                                         icon: const Icon(Icons.share),
                                     ),
                                     IconButton(
                                         onPressed: () {
-                                          commToast("Saved Successfully", context);
-                                          // ImageGallerySaver.saveFile(file.getImage[index].path).then((value){
-                                          //   commToast("Saved Successfully", context);
-                                          // });
+                                          ImageGallerySaver.saveFile(file.getImage[index].path).then((value){
+                                            commToast("Saved Successfully", context);
+                                          }).onError((error, stackTrace){
+                                            print(error);
+                                            print(stackTrace);
+                                            commToast("Error", context);
+                                          });
                                         },
                                         icon: const Icon(Icons.file_download_outlined)),
                                   ],
@@ -88,7 +95,7 @@ class _ImageScreenState extends State<ImageScreen> {
                             ),
                           );
                         },
-                      );
+                    );
           }
         )
     );
