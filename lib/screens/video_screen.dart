@@ -29,7 +29,7 @@ class _VideoScreenState extends State<VideoScreen> {
 
             if (isFetched == false) {
               appProvider.getStatus(".mp4");
-              Future.delayed(const Duration(microseconds: 10),() {
+              Future.delayed(const Duration(microseconds: 1),() {
                 isFetched == true;
               });
             }
