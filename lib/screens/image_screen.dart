@@ -22,80 +22,61 @@ class _ImageScreenState extends State<ImageScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final appProvider = Provider.of<AppProvider>(context);
     return Scaffold(
-        body: Consumer<AppProvider>(
-          builder: (context, appProvider, child) {
-
-            if (isFetched == false) {
-              appProvider.getStatus(".jpg");
-              Future.delayed(const Duration(microseconds: 10),() {
-                isFetched == true;
-              });
-            }
-
-            return appProvider.isWhatsAppAvailable == false
-                ? const Center(
-                    child: Text("No Whatsapp available"),
-                  )
-                : appProvider.getImage.isEmpty
-                    ? const Center(
-                        child: Text("No Image Found"),
-                      )
-                    : GridView.builder(
-                        itemCount: appProvider.getImage.length,
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 0.0,
-                          childAspectRatio: 0.75,
-                          mainAxisSpacing: 0.0,
+        body: GridView.builder(
+          itemCount: appProvider.getImage.length,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 0.0,
+            childAspectRatio: 0.75,
+            mainAxisSpacing: 0.0,
+          ),
+          itemBuilder: (context, index) {
+            return Card(
+              elevation: 1,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  InkWell(
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> ViewImage(image: appProvider.getImage[index].path))),
+                    child: Container(
+                      height: MediaQuery.of(context).size.width*0.5,
+                      width: MediaQuery.of(context).size.width*0.5,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          fit: BoxFit.fill,
+                          image: FileImage(File(appProvider.getImage[index].path)),
                         ),
-                        itemBuilder: (context, index) {
-                          return Card(
-                            elevation: 1,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                InkWell(
-                                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> ViewImage(image: appProvider.getImage[index].path))),
-                                  child: Container(
-                                    height: MediaQuery.of(context).size.width*0.5,
-                                    width: MediaQuery.of(context).size.width*0.5,
-                                    decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                            fit: BoxFit.fill,
-                                            image: FileImage(File(appProvider.getImage[index].path)),
-                                        ),
-                                    ),
-                                  ),
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    IconButton(
-                                        // onPressed: (){},
-                                        onPressed: () async {
-                                          FlutterNativeApi.shareImage(appProvider.getImage[index].path);
-                                        },
-                                        icon: const Icon(Icons.share),
-                                    ),
-                                    IconButton(
-                                        onPressed: () {
-                                          ImageGallerySaver.saveFile(appProvider.getImage[index].path).then((value){
-                                            commToast("Saved Successfully", context);
-                                          }).onError((error, stackTrace){
-                                            commToast("Error", context);
-                                          });
-                                        },
-                                        icon: const Icon(Icons.file_download_outlined)),
-                                  ],
-                                )
-                              ],
-                            ),
-                          );
+                      ),
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      IconButton(
+                        // onPressed: (){},
+                        onPressed: () async {
+                          FlutterNativeApi.shareImage(appProvider.getImage[index].path);
                         },
-                    );
-          }
-        )
+                        icon: const Icon(Icons.share),
+                      ),
+                      IconButton(
+                          onPressed: () {
+                            ImageGallerySaver.saveFile(appProvider.getImage[index].path).then((value){
+                              commToast("Saved Successfully", context);
+                            }).onError((error, stackTrace){
+                              commToast("Error", context);
+                            });
+                          },
+                          icon: const Icon(Icons.file_download_outlined)),
+                    ],
+                  )
+                ],
+              ),
+            );
+          },
+        ),
     );
   }
 }

@@ -23,88 +23,69 @@ class _VideoScreenState extends State<VideoScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final appProvider = Provider.of<AppProvider>(context);
     return Scaffold(
-        body: Consumer<AppProvider>(
-          builder: (context, appProvider, child) {
+        body: GridView.builder(
+          itemCount: appProvider.getVideo.length,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 0.0,
+            childAspectRatio: 0.75,
+            mainAxisSpacing: 0.0,
+          ),
+          itemBuilder: (context, index) {
+            return FutureBuilder<String>(
+                future: getThumbnail(appProvider.getVideo[index].path),
+                builder: (context, snapshot) {
 
-            if (isFetched == false) {
-              appProvider.getStatus(".mp4");
-              Future.delayed(const Duration(microseconds: 10),() {
-                isFetched == true;
-              });
-            }
-
-            return appProvider.isWhatsAppAvailable == false
-                ? const Center(
-                    child: Text("No Whatsapp available"),
-                  )
-                : appProvider.getVideo.isEmpty
-                    ? const Center(
-                        child: Text("No Video Found"),
-                      )
-                    : GridView.builder(
-                        itemCount: appProvider.getVideo.length,
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 0.0,
-                          childAspectRatio: 0.75,
-                          mainAxisSpacing: 0.0,
-                        ),
-                        itemBuilder: (context, index) {
-                          return FutureBuilder<String>(
-                            future: getThumbnail(appProvider.getVideo[index].path),
-                            builder: (context, snapshot) {
-
-                              if (!snapshot.hasData) {
-                                return const Center(
-                                  child: Text("Thumbnail Error!"),
-                                );
-                              }
-
-                              return Card(
-                                elevation: 3,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    InkWell(
-                                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> ViewVideo(video: appProvider.getVideo[index].path))),
-                                      child: Container(
-                                        height: MediaQuery.of(context).size.width*0.5,
-                                        width: MediaQuery.of(context).size.width*0.5,
-                                        decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                            fit: BoxFit.fill,
-                                            image: FileImage(File(snapshot.data!)),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        IconButton(
-                                          onPressed: () => FlutterNativeApi.shareImage(appProvider.getVideo[index].path),
-                                          icon: const Icon(Icons.share),
-                                        ),
-                                        IconButton(
-                                            onPressed: () {
-                                              commToast("Saved Successfully", context);
-                                              ImageGallerySaver.saveFile(appProvider.getVideo[index].path).then((value){
-                                                commToast("Saved Successfully", context);
-                                              });
-                                            },
-                                            icon: const Icon(Icons.file_download_outlined)),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              );
-                            }
-                          );
-                        },
+                  if (!snapshot.hasData) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
                     );
-          }
-        )
+                  }
+
+                  return Card(
+                    elevation: 3,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        InkWell(
+                          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> ViewVideo(video: appProvider.getVideo[index].path))),
+                          child: Container(
+                            height: MediaQuery.of(context).size.width*0.5,
+                            width: MediaQuery.of(context).size.width*0.5,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                fit: BoxFit.fill,
+                                image: FileImage(File(snapshot.data!)),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            IconButton(
+                              onPressed: () => FlutterNativeApi.shareImage(appProvider.getVideo[index].path),
+                              icon: const Icon(Icons.share),
+                            ),
+                            IconButton(
+                                onPressed: () {
+                                  commToast("Saved Successfully", context);
+                                  ImageGallerySaver.saveFile(appProvider.getVideo[index].path).then((value){
+                                    commToast("Saved Successfully", context);
+                                  });
+                                },
+                                icon: const Icon(Icons.file_download_outlined)),
+                          ],
+                        )
+                      ],
+                    ),
+                  );
+                }
+            );
+          },
+        ),
     );
   }
 }
