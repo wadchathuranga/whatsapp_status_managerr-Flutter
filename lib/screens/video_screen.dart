@@ -25,25 +25,25 @@ class _VideoScreenState extends State<VideoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Consumer<AppProvider>(
-          builder: (context, file, child) {
+          builder: (context, appProvider, child) {
 
             if (isFetched == false) {
-              file.getStatus(".mp4");
+              appProvider.getStatus(".mp4");
               Future.delayed(const Duration(microseconds: 10),() {
                 isFetched == true;
               });
             }
 
-            return file.isWhatsAppAvailable == false
+            return appProvider.isWhatsAppAvailable == false
                 ? const Center(
                     child: Text("No Whatsapp available"),
                   )
-                : file.getVideo.isEmpty
+                : appProvider.getVideo.isEmpty
                     ? const Center(
                         child: Text("No Video Found"),
                       )
                     : GridView.builder(
-                        itemCount: file.getVideo.length,
+                        itemCount: appProvider.getVideo.length,
                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           crossAxisSpacing: 0.0,
@@ -52,7 +52,7 @@ class _VideoScreenState extends State<VideoScreen> {
                         ),
                         itemBuilder: (context, index) {
                           return FutureBuilder<String>(
-                            future: getThumbnail(file.getVideo[index].path),
+                            future: getThumbnail(appProvider.getVideo[index].path),
                             builder: (context, snapshot) {
 
                               if (!snapshot.hasData) {
@@ -67,7 +67,7 @@ class _VideoScreenState extends State<VideoScreen> {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     InkWell(
-                                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> ViewVideo(video: file.getVideo[index].path))),
+                                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> ViewVideo(video: appProvider.getVideo[index].path))),
                                       child: Container(
                                         height: MediaQuery.of(context).size.width*0.5,
                                         width: MediaQuery.of(context).size.width*0.5,
@@ -83,13 +83,13 @@ class _VideoScreenState extends State<VideoScreen> {
                                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                       children: [
                                         IconButton(
-                                          onPressed: () => FlutterNativeApi.shareImage(file.getVideo[index].path),
+                                          onPressed: () => FlutterNativeApi.shareImage(appProvider.getVideo[index].path),
                                           icon: const Icon(Icons.share),
                                         ),
                                         IconButton(
                                             onPressed: () {
                                               commToast("Saved Successfully", context);
-                                              ImageGallerySaver.saveFile(file.getVideo[index].path).then((value){
+                                              ImageGallerySaver.saveFile(appProvider.getVideo[index].path).then((value){
                                                 commToast("Saved Successfully", context);
                                               });
                                             },
