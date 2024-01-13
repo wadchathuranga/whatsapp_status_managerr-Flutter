@@ -23,9 +23,10 @@ class _ImageScreenState extends State<ImageScreen> {
   @override
   Widget build(BuildContext context) {
     final appProvider = Provider.of<AppProvider>(context);
+    print(appProvider.getImageList.length);
     return Scaffold(
         body: GridView.builder(
-          itemCount: appProvider.getImage.length,
+          itemCount: appProvider.getImageList.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             crossAxisSpacing: 0.0,
@@ -39,7 +40,7 @@ class _ImageScreenState extends State<ImageScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InkWell(
-                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> ViewImage(image: appProvider.getImage[index].path))),
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ViewImage(image: appProvider.getImage[index].path))),
                     child: Container(
                       height: MediaQuery.of(context).size.width*0.5,
                       width: MediaQuery.of(context).size.width*0.5,

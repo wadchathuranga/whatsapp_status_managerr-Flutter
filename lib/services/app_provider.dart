@@ -7,6 +7,10 @@ class AppProvider extends ChangeNotifier {
   List<FileSystemEntity> getImage = [];
   List<FileSystemEntity> getVideo = [];
 
+  List<FileSystemEntity> get getImageList {
+    return getImage;
+  }
+
   bool isWhatsAppAvailable = false;
 
   getStatus(String endPoint) {
