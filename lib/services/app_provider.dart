@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:flutter/widgets.dart';
-import 'package:provider/provider.dart';
 
 
 class AppProvider extends ChangeNotifier {
@@ -8,14 +7,14 @@ class AppProvider extends ChangeNotifier {
   List<FileSystemEntity> getImage = [];
   List<FileSystemEntity> getVideo = [];
 
-  bool isWhatsappAvailable = false;
+  bool isWhatsAppAvailable = false;
 
   getStatus(String endPoint) {
-    final directory = Directory("/storage/emulated/0/Android/media/com.whatsapp/WhatsApp/Media/.Statuses");
+    final directory = Directory("/storage/emulated/0/WhatsApp/Media/.Statuses");
 
     if (directory.existsSync()) {
       final item = directory.listSync();
-      isWhatsappAvailable = true;
+      isWhatsAppAvailable = true;
       notifyListeners();
 
       if (endPoint == ".mp4"){
@@ -26,7 +25,7 @@ class AppProvider extends ChangeNotifier {
         notifyListeners();
       }
     } else {
-      isWhatsappAvailable = false;
+      isWhatsAppAvailable = false;
       notifyListeners();
     }
   }
