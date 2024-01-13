@@ -56,7 +56,7 @@ class _ImageScreenState extends State<ImageScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 InkWell(
-                                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> ViewImageScreen(image: file.getImage[index].path,))),
+                                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> ViewImage(image: file.getImage[index].path))),
                                   child: Container(
                                     height: MediaQuery.of(context).size.width*0.5,
                                     width: MediaQuery.of(context).size.width*0.5,
@@ -83,8 +83,6 @@ class _ImageScreenState extends State<ImageScreen> {
                                           ImageGallerySaver.saveFile(file.getImage[index].path).then((value){
                                             commToast("Saved Successfully", context);
                                           }).onError((error, stackTrace){
-                                            print(error);
-                                            print(stackTrace);
                                             commToast("Error", context);
                                           });
                                         },

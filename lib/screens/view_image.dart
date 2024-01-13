@@ -7,16 +7,16 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 import '../utils/app_colors.dart';
 import '../widgets/common_toast.dart';
 
-class ViewImageScreen extends StatefulWidget {
-  const ViewImageScreen({Key? key, required this.image}) : super(key: key);
+class ViewImage extends StatefulWidget {
+  const ViewImage({Key? key, required this.image}) : super(key: key);
 
   final String image;
 
   @override
-  State<ViewImageScreen> createState() => _ViewImageScreenState();
+  State<ViewImage> createState() => _ViewImageState();
 }
 
-class _ViewImageScreenState extends State<ViewImageScreen> {
+class _ViewImageState extends State<ViewImage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

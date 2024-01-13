@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../utils/app_colors.dart';
@@ -12,7 +13,36 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
+
+  late TabController tabController;
+
+  //double tap to exit
+  DateTime current = DateTime.now().subtract(const Duration(milliseconds: 1500));
+  Future<bool> popped() {
+    DateTime now = DateTime.now();
+      if (tabController.index == 0) {
+        if (now.difference(current) > const Duration(milliseconds: 1500)) {
+          current = now;
+          Fluttertoast.showToast(
+              msg: "Press Again to Exit!",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.black,
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
+          return Future.value(false);
+        } else {
+          Fluttertoast.cancel();
+          return Future.value(true);
+        }
+      } else {
+        setState(() => tabController.index = 0);
+        return Future.value(false);
+      }
+  }
 
   void _permission() async {
     Map<Permission, PermissionStatus> result = await [
@@ -30,32 +60,38 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    _permission();
     super.initState();
+    _permission();
+    tabController = TabController(length: 2, vsync: this);
+    tabController.addListener(() {
+      setState(() { });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
+    return WillPopScope(
+      onWillPop: () => popped(),
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: AppColors.primary,
           title: const Text('Save Status'),
-          bottom: const TabBar(
+          bottom: TabBar(
+            controller: tabController,
             labelColor: AppColors.secondary,
             indicatorColor: AppColors.secondary,
             unselectedLabelColor: AppColors.whiteColor,
             indicatorWeight: 3,
-            labelPadding: EdgeInsets.all(15),
-            tabs: [
+            labelPadding: const EdgeInsets.all(15),
+            tabs: const [
               Text('Images'),
               Text('Videos'),
             ],
           ),
         ),
-        body: const TabBarView(
-          children: [
+        body: TabBarView(
+          controller: tabController,
+          children: const [
             ImageScreen(),
             VideoScreen(),
           ],
