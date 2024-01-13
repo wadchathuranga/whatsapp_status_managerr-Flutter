@@ -47,7 +47,7 @@ class _VideoScreenState extends State<VideoScreen> {
                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           crossAxisSpacing: 0.0,
-                          childAspectRatio: 0.7,
+                          childAspectRatio: 0.75,
                           mainAxisSpacing: 0.0,
                         ),
                         itemBuilder: (context, index) {
@@ -55,10 +55,10 @@ class _VideoScreenState extends State<VideoScreen> {
                             future: getThumbnail(file.getVideo[index].path),
                             builder: (context, snapshot) {
 
-                              print('=======================${snapshot}');
-
                               if (!snapshot.hasData) {
-                                return const SizedBox();
+                                return const Center(
+                                  child: Text("Thumbnail Error!"),
+                                );
                               }
 
                               return Card(

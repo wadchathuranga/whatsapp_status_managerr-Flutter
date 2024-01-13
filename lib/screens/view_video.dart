@@ -1,8 +1,12 @@
+import 'dart:io';
+
+import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_api/flutter_native_api.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:whatsapp_status_manager/utils/app_colors.dart';
+import 'package:video_player/video_player.dart';
 
+import '../utils/app_colors.dart';
 import '../widgets/common_toast.dart';
 
 class ViewVideo extends StatefulWidget {
@@ -15,16 +19,43 @@ class ViewVideo extends StatefulWidget {
 }
 
 class _ViewVideoState extends State<ViewVideo> {
+
+  late ChewieController _chewieController;
+  late VideoPlayerController videoPlayerController;
+
+  @override
+  void initState() {
+    super.initState();
+    videoPlayerController = VideoPlayerController.file(File(widget.video));
+    _chewieController = ChewieController(
+        autoInitialize: true,
+        looping: true,
+        aspectRatio: 6/7,
+        errorBuilder: ((context, errorMessage) {
+          return commToast(errorMessage, context);
+        }),
+        videoPlayerController: videoPlayerController,
+    ) ;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    videoPlayerController.dispose();
+    _chewieController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(),
+      backgroundColor: Colors.black,
+      body: Chewie(controller: _chewieController!),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton(
               backgroundColor: AppColors.primary,
-              heroTag: "Saved Image",
+              heroTag: "Saved Video",
               onPressed: (){
                 ImageGallerySaver.saveFile(widget.video).then((value){
                   commToast("Saved Successfully", context);
@@ -40,7 +71,7 @@ class _ViewVideoState extends State<ViewVideo> {
           const SizedBox(height: 10),
           FloatingActionButton(
               backgroundColor: AppColors.primary,
-              heroTag: "Share Image",
+              heroTag: "Share Video",
               onPressed: (){
                 FlutterNativeApi.shareImage(widget.video!);
               },

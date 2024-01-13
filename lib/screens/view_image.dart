@@ -20,10 +20,7 @@ class _ViewImageState extends State<ViewImage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.primary,
-        title: const Text('Image View'),
-      ),
+      backgroundColor: Colors.black,
       body: Container(
         decoration: BoxDecoration(
             image: DecorationImage(

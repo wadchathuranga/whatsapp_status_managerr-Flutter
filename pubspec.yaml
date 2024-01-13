@@ -42,9 +42,8 @@ dependencies:
   video_thumbnail: ^0.5.3
   image_gallery_saver: ^2.0.3
   flutter_native_api: ^1.1.0
-#  flutter_native_api:
-#  chewie:
-#  video_player:
+  chewie: ^1.7.4
+  video_player: ^2.8.2
 
 dev_dependencies:
   flutter_test:
