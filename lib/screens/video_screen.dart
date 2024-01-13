@@ -57,7 +57,9 @@ class _VideoScreenState extends State<VideoScreen> {
 
                               if (!snapshot.hasData) {
                                 return const Center(
-                                  child: Text("Thumbnail Error!"),
+                                  child: CircularProgressIndicator(
+                                    color: Colors.teal,
+                                  ),
                                 );
                               }
 
