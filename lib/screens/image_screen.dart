@@ -26,7 +26,7 @@ class _ImageScreenState extends State<ImageScreen> {
 
             if (isFetched == false) {
               file.getStatus(".jpg");
-              Future.delayed(const Duration(microseconds: 1),() {
+              Future.delayed(const Duration(microseconds: 10),() {
                 isFetched == true;
               });
             }
@@ -44,7 +44,7 @@ class _ImageScreenState extends State<ImageScreen> {
                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           crossAxisSpacing: 5.0,
-                          childAspectRatio: 0.7,
+                          childAspectRatio: 0.75,
                           mainAxisSpacing: 5.0,
                         ),
                         itemBuilder: (context, index) {
@@ -61,7 +61,6 @@ class _ImageScreenState extends State<ImageScreen> {
                                     decoration: BoxDecoration(
                                         image: DecorationImage(
                                             fit: BoxFit.fill,
-                                            // image: NetworkImage('https://blog.logrocket.com/wp-content/uploads/2021/07/networking-flutter-http-package.png'),
                                             image: FileImage(File(file.getImage[index].path)),
                                         ),
                                     ),

@@ -32,31 +32,34 @@ class _ViewImageScreenState extends State<ViewImageScreen> {
       ),
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           FloatingActionButton(
-              backgroundColor: AppColors.primary,
-              heroTag: "Saved Image",
-              onPressed: () {
-                // ImageGallerySaver.saveFile(widget.image!).then((value) {
-                //   commToast("Saved Successfully", context);
-                // }).onError((error, stackTrace) {
-                //   commToast("Error", context);
-                // });
-              },
-              child: const Icon(
-                Icons.file_download_outlined,
-                color: AppColors.whiteColor,
-              ),
+            backgroundColor: AppColors.primary,
+            heroTag: "Saved Image",
+            onPressed: () {
+              // ImageGallerySaver.saveFile(widget.image!).then((value) {
+              //   commToast("Saved Successfully", context);
+              // }).onError((error, stackTrace) {
+              //   commToast("Error", context);
+              // });
+            },
+            child: const Icon(
+              Icons.file_download_outlined,
+              color: AppColors.whiteColor,
+            ),
           ),
           const SizedBox(width: 10,),
           FloatingActionButton(
-              backgroundColor: AppColors.primary,
-              heroTag: "Share Image",
-              onPressed: (){
-                // FlutterNativeApi.shareImage(widget.image!);
-              },
-              child: Icon(Icons.share,color: AppColors.whiteColor,)),
+            backgroundColor: AppColors.primary,
+            heroTag: "Share Image",
+            onPressed: (){
+              // FlutterNativeApi.shareImage(widget.image!);
+            },
+            child: const Icon(
+              Icons.share,
+              color: AppColors.whiteColor,
+            ),
+          ),
         ],
       ),
     );
