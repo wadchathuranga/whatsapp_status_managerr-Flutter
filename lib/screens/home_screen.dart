@@ -76,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         appBar: AppBar(
           backgroundColor: AppColors.primary,
           title: const Text(
-            'What SAM',
+            'What Saver',
             style: TextStyle(color: AppColors.whiteColor),
           ),
           bottom: TabBar(

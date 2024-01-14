@@ -44,6 +44,14 @@ dependencies:
   flutter_native_api: ^1.1.0
   chewie: ^1.7.4
   video_player: ^2.8.2
+  flutter_native_splash: ^2.3.9
+
+flutter_native_splash:
+  color: "#00696a"
+  image: assets/app_logo_splash.png
+  android_12:
+    color: "#00696a"
+    image: assets/app_logo_splash.png
 
 dev_dependencies:
   flutter_test:
@@ -55,6 +63,13 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: true
+  ios: false
+  image_path: "assets/app_launch_icon.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
