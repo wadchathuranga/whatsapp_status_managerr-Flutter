@@ -68,18 +68,31 @@ class _VideoScreenState extends State<VideoScreen> {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    InkWell(
-                                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> ViewVideo(video: appProvider.getVideo[index].path))),
-                                      child: Container(
-                                        height: MediaQuery.of(context).size.width*0.5,
-                                        width: MediaQuery.of(context).size.width*0.5,
-                                        decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                            fit: BoxFit.fill,
-                                            image: FileImage(File(snapshot.data!)),
+                                    Stack(
+                                      children: [
+                                        InkWell(
+                                          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> ViewVideo(video: appProvider.getVideo[index].path))),
+                                          child: Container(
+                                            height: MediaQuery.of(context).size.width*0.5,
+                                            width: MediaQuery.of(context).size.width*0.5,
+                                            decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                fit: BoxFit.fill,
+                                                image: FileImage(File(snapshot.data!)),
+                                              ),
+                                            ),
                                           ),
                                         ),
-                                      ),
+                                        SizedBox(
+                                          height: MediaQuery.of(context).size.width*0.5,
+                                          width: MediaQuery.of(context).size.width*0.5,
+                                          child: const Icon(
+                                            Icons.play_circle_outline,
+                                            color: Colors.white,
+                                            size: 50,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
