@@ -13,35 +13,37 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
-
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
   late TabController tabController;
 
+  bool permission = false;
+
   //double tap to exit
-  DateTime current = DateTime.now().subtract(const Duration(milliseconds: 1500));
+  DateTime current =
+      DateTime.now().subtract(const Duration(milliseconds: 1500));
   Future<bool> popped() {
     DateTime now = DateTime.now();
-      if (tabController.index == 0) {
-        if (now.difference(current) > const Duration(milliseconds: 1500)) {
-          current = now;
-          Fluttertoast.showToast(
-              msg: "Press Again to Exit!",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.black,
-              textColor: Colors.white,
-              fontSize: 16.0
-          );
-          return Future.value(false);
-        } else {
-          Fluttertoast.cancel();
-          return Future.value(true);
-        }
-      } else {
-        setState(() => tabController.index = 0);
+    if (tabController.index == 0) {
+      if (now.difference(current) > const Duration(milliseconds: 1500)) {
+        current = now;
+        Fluttertoast.showToast(
+            msg: "Press Again to Exit!",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.black,
+            textColor: Colors.white,
+            fontSize: 16.0);
         return Future.value(false);
+      } else {
+        Fluttertoast.cancel();
+        return Future.value(true);
       }
+    } else {
+      setState(() => tabController.index = 0);
+      return Future.value(false);
+    }
   }
 
   void _permission() async {
@@ -50,11 +52,14 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       Permission.manageExternalStorage,
     ].request();
 
-    if (result[Permission.storage] == PermissionStatus.granted && result[Permission.manageExternalStorage] == PermissionStatus.granted){
+    if (result[Permission.storage] == PermissionStatus.granted ||
+        result[Permission.manageExternalStorage] == PermissionStatus.granted) {
       print('================${result[Permission.storage]}');
+      permission = true;
     } else {
       print('================${result[Permission.storage]}');
       print('================${result[Permission.manageExternalStorage]}');
+      permission = false;
     }
   }
 
@@ -64,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     _permission();
     tabController = TabController(length: 2, vsync: this);
     tabController.addListener(() {
-      setState(() { });
+      setState(() {});
     });
   }
 
@@ -73,32 +78,46 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     return WillPopScope(
       onWillPop: () => popped(),
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: AppColors.primary,
-          title: const Text(
-            'What Saver',
-            style: TextStyle(color: AppColors.whiteColor),
+          appBar: AppBar(
+            backgroundColor: AppColors.primary,
+            title: const Text(
+              'WA Status Saver',
+              style: TextStyle(color: AppColors.whiteColor),
+            ),
+            bottom: TabBar(
+              controller: tabController,
+              labelColor: AppColors.secondary,
+              indicatorColor: AppColors.secondary,
+              unselectedLabelColor: AppColors.whiteColor,
+              indicatorWeight: 3,
+              tabs: const [
+                Tab(text: 'Images', icon: Icon(Icons.image)),
+                Tab(text: 'Videos', icon: Icon(Icons.video_collection)),
+              ],
+            ),
           ),
-          bottom: TabBar(
-            controller: tabController,
-            labelColor: AppColors.secondary,
-            indicatorColor: AppColors.secondary,
-            unselectedLabelColor: AppColors.whiteColor,
-            indicatorWeight: 3,
-            tabs: const [
-              Tab(text: 'Images', icon: Icon(Icons.image)),
-              Tab(text: 'Videos', icon: Icon(Icons.video_collection)),
-            ],
-          ),
-        ),
-        body: TabBarView(
-          controller: tabController,
-          children: const [
-            ImageScreen(),
-            VideoScreen(),
-          ],
-        ),
-      ),
+          body: permission
+              ? TabBarView(
+                  controller: tabController,
+                  children: const [
+                    ImageScreen(),
+                    VideoScreen(),
+                  ],
+                )
+              : Center(
+                  child: Container(
+                    padding: const EdgeInsets.only(
+                        left: 16.0, top: 24.0, right: 16.0, bottom: 24.0),
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(AppColors.primary),
+                        foregroundColor: MaterialStateProperty.all<Color>(AppColors.whiteColor),
+                      ),
+                      child: const Text('Allow access'),
+                    ),
+                  ),
+                )),
     );
   }
 }
